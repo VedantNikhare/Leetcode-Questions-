@@ -1,0 +1,36 @@
+import java.applet.*;
+import java.awt.*;
+
+
+public class multimedia extends Applet {
+    private Image image;
+    private AudioClip audioClip;
+
+    public void init() {
+        image = getImage(getCodeBase(), "image.jpg");
+        audioClip = getAudioClip(getCodeBase(), "audio.wav");
+
+        MediaTracker mediaTracker = new MediaTracker(this);
+        mediaTracker.addImage(image, 0);
+
+        try {
+            mediaTracker.waitForID(0);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        setSize(image.getWidth(this), image.getHeight(this));
+    }
+
+    public void start() {
+        audioClip.loop();
+    }
+
+    public void stop() {
+        audioClip.stop();
+    }
+
+    public void paint(Graphics g) {
+        g.drawImage(image, 0, 0, this);
+    }
+}
+
