@@ -1,0 +1,25 @@
+class Solution {
+    public boolean isHappy(int n) {
+        HashSet<Integer> seen = new HashSet<>();
+        
+        while (n != 1) {
+            int current = n;
+            int sum = 0;
+            
+            while (current > 0) {
+                int digit = current % 10;
+                sum += digit * digit;
+                current /= 10;
+            }
+            
+            if (seen.contains(sum)) {
+                return false; // Detected a cycle, it's not a happy number.
+            }
+            
+            seen.add(sum);
+            n = sum;
+        }
+        
+        return true; // The loop ended with n being 1, so it's a happy number.
+    }
+}
