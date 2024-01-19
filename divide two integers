@@ -1,0 +1,46 @@
+class Solution {
+    public int divide(int dividend, int divisor) {
+        // Handle overflow cases
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
+        }
+
+        // Determine the sign of the result
+        int sign = (dividend < 0) ^ (divisor < 0) ? -1 : 1;
+
+        // Take the absolute values of dividend and divisor
+        long absDividend = Math.abs((long) dividend);
+        long absDivisor = Math.abs((long) divisor);
+
+        // Initialize the result
+        long result = 0;
+
+        // Perform division using subtraction and bit manipulation
+        while (absDividend >= absDivisor) {
+            long tempDivisor = absDivisor;
+            long multiple = 1;
+
+            // Use left shift to find the multiple of divisor closest to dividend
+            while (absDividend >= (tempDivisor << 1)) {
+                tempDivisor <<= 1;
+                multiple <<= 1;
+            }
+
+            // Subtract the multiple of divisor from dividend and update the result
+            absDividend -= tempDivisor;
+            result += multiple;
+        }
+
+        // Apply the sign to the result
+        result *= sign;
+
+        // Handle 32-bit integer overflow
+        if (result > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        } else if (result < Integer.MIN_VALUE) {
+            return Integer.MIN_VALUE;
+        }
+
+        return (int) result;
+    }
+}
