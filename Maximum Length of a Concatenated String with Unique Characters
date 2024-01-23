@@ -1,0 +1,37 @@
+import java.util.List;
+
+class Solution {
+    public int maxLength(List<String> arr) {
+        return maxLengthHelper(arr, 0, "");
+    }
+
+    private int maxLengthHelper(List<String> arr, int index, String current) {
+        // Check if the current string has duplicate characters
+        if (!isUnique(current)) {
+            return 0;
+        }
+
+        int maxLength = current.length();
+
+        // Iterate through the remaining strings in the array
+        for (int i = index; i < arr.size(); i++) {
+            // Concatenate the current string with the next one and recursively check
+            maxLength = Math.max(maxLength, maxLengthHelper(arr, i + 1, current + arr.get(i)));
+        }
+
+        return maxLength;
+    }
+
+    private boolean isUnique(String str) {
+        int[] charCount = new int[26];
+
+        for (char c : str.toCharArray()) {
+            if (charCount[c - 'a'] > 0) {
+                return false; // Duplicate character found
+            }
+            charCount[c - 'a']++;
+        }
+
+        return true;
+    }
+}
