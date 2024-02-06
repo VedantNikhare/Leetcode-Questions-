@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return new ArrayList<>();
+        }
+
+        Map<String, List<String>> anagramGroups = new HashMap<>();
+
+        for (String word : strs) {
+            char[] charArray = word.toCharArray();
+            Arrays.sort(charArray);
+            String sortedKey = new String(charArray);
+
+            anagramGroups.computeIfAbsent(sortedKey, k -> new ArrayList<>()).add(word);
+        }
+
+        return new ArrayList<>(anagramGroups.values());
+    }
+}
