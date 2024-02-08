@@ -1,0 +1,22 @@
+import java.util.Arrays;
+
+class Solution {
+    public int numSquares(int n) {
+        // Create an array to store the minimum number of perfect squares for each number up to n
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+
+        // The minimum number of perfect squares for 0 is 0
+        dp[0] = 0;
+
+        // Iterate through all numbers up to n
+        for (int i = 1; i <= n; i++) {
+            // Try using each perfect square less than or equal to i
+            for (int j = 1; j * j <= i; j++) {
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+            }
+        }
+
+        return dp[n];
+    }
+}
