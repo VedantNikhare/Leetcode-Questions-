@@ -1,0 +1,45 @@
+class Solution {
+    public int cherryPickup(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        
+        // Create a 3D dp array to store the results
+        int[][][] dp = new int[rows][cols][cols];
+        
+        // Iterate through the rows, starting from the bottom
+        for (int i = rows - 1; i >= 0; i--) {
+            for (int j1 = 0; j1 < cols; j1++) {
+                for (int j2 = 0; j2 < cols; j2++) {
+                    int cherries = grid[i][j1];
+                    
+                    // If the robots are in different columns, add cherries for both
+                    if (j1 != j2) {
+                        cherries += grid[i][j2];
+                    }
+                    
+                    // If not in the last row, consider cherries collected in next row
+                    if (i != rows - 1) {
+                        int maxNext = 0;
+                        
+                        // Iterate through all possible next positions for both robots
+                        for (int nextJ1 = j1 - 1; nextJ1 <= j1 + 1; nextJ1++) {
+                            for (int nextJ2 = j2 - 1; nextJ2 <= j2 + 1; nextJ2++) {
+                                if (nextJ1 >= 0 && nextJ1 < cols && nextJ2 >= 0 && nextJ2 < cols) {
+                                    maxNext = Math.max(maxNext, dp[i + 1][nextJ1][nextJ2]);
+                                }
+                            }
+                        }
+                        
+                        cherries += maxNext;
+                    }
+                    
+                    // Store the result in the dp array
+                    dp[i][j1][j2] = cherries;
+                }
+            }
+        }
+        
+        // The result is stored in the top-left cell of the dp array
+        return dp[0][0][cols - 1];
+    }
+}
