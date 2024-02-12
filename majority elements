@@ -1,0 +1,29 @@
+class Solution {
+    public int majorityElement(int[] nums) {
+        // Initialize the majority element and its count
+        int majorityElement = nums[0];
+        int count = 1;
+
+        // Traverse the array starting from the second element
+        for (int i = 1; i < nums.length; i++) {
+            // If count becomes zero, update the majority element
+            // and reset the count to 1
+            if (count == 0) {
+                majorityElement = nums[i];
+                count = 1;
+            } 
+            // If the current element is the same as the majority element,
+            // increment the count
+            else if (nums[i] == majorityElement) {
+                count++;
+            } 
+            // If the current element is different, decrement the count
+            else {
+                count--;
+            }
+        }
+
+        // The final majority element is the result
+        return majorityElement;
+    }
+}
