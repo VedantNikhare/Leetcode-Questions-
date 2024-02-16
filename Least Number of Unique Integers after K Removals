@@ -1,0 +1,29 @@
+import java.util.*;
+
+class Solution {
+    public int findLeastNumOfUniqueInts(int[] arr, int k) {
+        // Step 1: Count frequency of each number
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        for (int num : arr) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        // Step 2: Sort numbers based on frequencies in ascending order
+        List<Integer> sortedNumbers = new ArrayList<>(frequencyMap.keySet());
+        sortedNumbers.sort(Comparator.comparingInt(frequencyMap::get));
+
+        // Step 3: Remove the least frequent numbers until total removals (k) is reached
+        int uniqueCount = sortedNumbers.size();
+        for (int num : sortedNumbers) {
+            int frequency = frequencyMap.get(num);
+            if (k >= frequency) {
+                k -= frequency;
+                uniqueCount--;
+            } else {
+                break;
+            }
+        }
+
+        return uniqueCount;
+    }
+}
