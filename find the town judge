@@ -1,0 +1,27 @@
+#include <vector>
+
+class Solution {
+public:
+    int findJudge(int n, std::vector<std::vector<int>>& trust) {
+        std::vector<int> trustCount(n + 1, 0);  // Array to count how many people trust each person
+        std::vector<int> trustedCount(n + 1, 0);  // Array to count how many people each person trusts
+
+        for (const auto& relationship : trust) {
+            int personA = relationship[0];
+            int personB = relationship[1];
+
+            // Update counts
+            trustCount[personB]++;
+            trustedCount[personA]++;
+        }
+
+        for (int i = 1; i <= n; ++i) {
+            // Check if the person trusts nobody and is trusted by everyone else (except for themselves)
+            if (trustCount[i] == n - 1 && trustedCount[i] == 0) {
+                return i;  // This person is the town judge
+            }
+        }
+
+        return -1;  // No town judge found
+    }
+};
